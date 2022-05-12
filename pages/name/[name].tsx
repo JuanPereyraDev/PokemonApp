@@ -69,11 +69,11 @@ export const PokemonByName:FC<Prop> = ({pokemon}) => {
 
                     <Card>
                         <Card.Header css={{display:'flex', justifyContent:'space-between'}}>
-                            <Grid xs={12}>
+                            <Grid sm={12}>
                                 <Text h1 transform='capitalize'> {pokemon.name} </Text>
                             </Grid>
 
-                            <Grid xs={12}>
+                            <Grid sm={12}>
                                 <Button onClick={onToggleFavorites} color={inFav ?'error' :'gradient'} >
                                     {
                                         inFav ? 'No me gusta' : 'Me gusta'
