@@ -1,8 +1,7 @@
-import {  Button, Link, Spacer, Text, useTheme } from "@nextui-org/react";
+import {  Button, Spacer, useTheme } from "@nextui-org/react";
 import Image from "next/image";
-import NextLink from 'next/link';
 import { useRouter } from "next/router";
-
+import img from '../../public/img/pokemonlogo.svg'
 
 
 export const NavBar = () => {
@@ -20,23 +19,18 @@ export const NavBar = () => {
                 flexDirection:'row',
                 alignItems:"center",
                 justifyContent: "start",
+                marginBottom:'20px',
                 width:'100%'
             }}
         >
             <Image 
-                src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/132.png"
+                style={{cursor:'pointer'}}
+                src={img}
                 alt='Icono de la app'
-                width={70}
+                width={150}
                 height={70}
+                onClick={()=>{router.push('/')}}
             />
-
-            <NextLink href='/' >
-                <Link>
-                    <Text color="white" h2>P</Text>
-                    <Text color="white" h3>okemon</Text>
-                </Link> 
-            </NextLink>
-                    
                 
             
 
