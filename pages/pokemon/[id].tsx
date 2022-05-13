@@ -6,6 +6,7 @@ import { GetPokemon, Id, Species, Sprites } from '../../interfaces/getPokemon';
 import { localFavorite } from '../../utils';
 import {  useState } from 'react';
 import confetti from 'canvas-confetti';
+import { redirect } from 'next/dist/server/api-utils';
 
 interface Prop {
     pokemon: Species & Sprites & Id
@@ -127,7 +128,9 @@ export const getStaticPaths: GetStaticPaths = async ({}) => {
 
         }) ),
 
-        fallback: false
+        //fallback: false
+
+        fallback: 'blocking'
 
     }
 }
@@ -140,10 +143,20 @@ export const getStaticProps: GetStaticProps = async ({params}) => {
 
     const {data} = await pokeApi.get<GetPokemon>(`/pokemon/${id}`); //obtener Pokemons
     
+    if(!data.name){
+        return {
+            redirect:{
+                destination:'/',
+                permanent:false
+            }
+        }
+    }
+
     return {
         props: {
             pokemon:data
-        }
+        },
+        revalidate: 86400
     }
 }
 
