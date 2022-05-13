@@ -1,5 +1,5 @@
 import { FC, useState } from "react";
-import { GetPokemon, Id, Species, Sprites } from "../../interfaces/getPokemon";
+import {  Id, Species, Sprites } from "../../interfaces/getPokemon";
 import { GetStaticPaths, GetStaticProps } from 'next'
 import { pokeApi } from "../../api";
 import { PokemonApiResponse  } from "../../interfaces/interfaces";
@@ -7,6 +7,7 @@ import { Grid, Card, Button, Container, Text, Image } from "@nextui-org/react";
 import confetti from "canvas-confetti";
 import { Layout } from "../../components/layouts";
 import { localFavorite } from "../../utils";
+import { pokemonInfo } from "../../utils/pokemonInfo";
 
 
 
@@ -132,7 +133,8 @@ export const getStaticPaths: GetStaticPaths = async (ctx) => {
 
         }) )
         ,
-        fallback: false
+        //fallback: false
+        fallback: "blocking"
     }
 };
 
@@ -141,25 +143,24 @@ export const getStaticProps: GetStaticProps = async ({params}) => {
 
     const {name} = params as {name:string}
 
+    const pokemon = pokemonInfo(name);
 
-    const {data} = await pokeApi.get<GetPokemon>(`/pokemon/${name}`);
-
-    const pokemon = {
-        name:data.name,
-        id:data.id
+    if(!pokemon){
+        return {
+            redirect:{
+                destination:'/',
+                permanent:false
+            }
+        }
     }
+    
     return {
         props: {
             pokemon
-        }
+        },
+        revalidate: 86400
     }
-}
-
-
-
-
-
-
+};
 
 
 export default PokemonByName;
